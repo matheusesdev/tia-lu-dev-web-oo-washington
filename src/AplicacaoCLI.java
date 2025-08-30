@@ -6,6 +6,9 @@ public class AplicacaoCLI {
     private static CentralDeDados dados = CentralDeDados.getInstance();
     private static Scanner scanner = new Scanner(System.in);
 
+    private static GerenteNotificador gerenteNotificador = new GerenteNotificador();
+    private static LogNotificador logNotificador = new LogNotificador();
+
     public static void main(String[] args) {
         int opcao = -1;
         while (opcao != 0) {
@@ -28,7 +31,6 @@ public class AplicacaoCLI {
         scanner.close();
     }
 
-    // --- Módulo de Menus e Navegação ---
     public static void exibirMenuPrincipal() {
         System.out.println("\n--- Sistema de Pedidos FoodDelivery ---");
         System.out.println("1. Gerenciar Cardápio");
@@ -142,7 +144,6 @@ public class AplicacaoCLI {
         }
     }
 
-    // --- Módulo de Operações (Clientes) ---
     private static void cadastrarNovoCliente() {
         System.out.print("Nome do cliente: ");
         String nome = scanner.nextLine();
@@ -162,7 +163,6 @@ public class AplicacaoCLI {
         }
     }
 
-    // --- Módulo de Operações (Cardápio) ---
     private static void cadastrarNovoItem() {
         System.out.print("Nome do item: ");
         String nome = scanner.nextLine();
@@ -182,7 +182,6 @@ public class AplicacaoCLI {
         }
     }
 
-    // --- Módulo de Operações (Pedidos) ---
     private static void registrarNovoPedido() {
         System.out.println("\n--- Registrar Novo Pedido ---");
         if (dados.getClientes().isEmpty()){
@@ -200,6 +199,9 @@ public class AplicacaoCLI {
         }
 
         Pedido novoPedido = new Pedido(dados.getProximoPedidoId(), clienteOpt.get());
+
+        novoPedido.addObserver(gerenteNotificador);
+        novoPedido.addObserver(logNotificador);
 
         while(true) {
             listarItensCardapio();

@@ -4,7 +4,6 @@ import java.util.Optional;
 
 public class CentralDeDados {
 
-    // --- Módulo Singleton ---
     private static CentralDeDados instance;
 
     private CentralDeDados() {
@@ -21,7 +20,6 @@ public class CentralDeDados {
         return instance;
     }
 
-    // --- Módulo de Armazenamento de Dados ---
     private List<Cliente> clientes;
     private List<ItemCardapio> cardapio;
     private List<Pedido> pedidos;
@@ -38,7 +36,6 @@ public class CentralDeDados {
         adicionarItemCardapio(new ItemCardapio(getProximoItemId(), "Hamburguer Duplo", 32.75));
     }
 
-    // --- Módulo de Acesso e Manipulação de Dados (Clientes) ---
     public List<Cliente> getClientes() { return clientes; }
     public void adicionarCliente(Cliente cliente) { this.clientes.add(cliente); }
     public Optional<Cliente> buscarClientePorId(int id) {
@@ -46,7 +43,6 @@ public class CentralDeDados {
     }
     public int getProximoClienteId() { return proximoClienteId++; }
 
-    // --- Módulo de Acesso e Manipulação de Dados (Cardápio) ---
     public List<ItemCardapio> getCardapio() { return cardapio; }
     public void adicionarItemCardapio(ItemCardapio item) { this.cardapio.add(item); }
     public Optional<ItemCardapio> buscarItemCardapioPorId(int id) {
@@ -54,7 +50,6 @@ public class CentralDeDados {
     }
     public int getProximoItemId() { return proximoItemId++; }
 
-    // --- Módulo de Acesso e Manipulação de Dados (Pedidos) ---
     public List<Pedido> getPedidos() { return pedidos; }
     public void adicionarPedido(Pedido pedido) { this.pedidos.add(pedido); }
     public Optional<Pedido> buscarPedidoPorId(int id) {

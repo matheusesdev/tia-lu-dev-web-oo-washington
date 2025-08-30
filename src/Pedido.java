@@ -10,11 +10,27 @@ public class Pedido {
     private Cliente cliente;
     private List<ItemPedido> itens;
 
+    private List<Observer> observers = new ArrayList<>();
+
     public Pedido(int id, Cliente cliente) {
         this.id = id;
         this.cliente = cliente;
         this.itens = new ArrayList<>();
         this.status = null;
+    }
+
+    public void addObserver(Observer observer) {
+        this.observers.add(observer);
+    }
+
+    public void removeObserver(Observer observer) {
+        this.observers.remove(observer);
+    }
+
+    public void notifyObservers() {
+        for (Observer observer : this.observers) {
+            observer.update(this);
+        }
     }
 
     public void adicionarItem(ItemPedido item) {
@@ -24,12 +40,14 @@ public class Pedido {
     public void confirmar() {
         this.status = StatusPedido.ACEITO;
         this.data = LocalDateTime.now();
+        notifyObservers();
     }
 
     public void avancarStatus() {
         if (this.status != StatusPedido.ENTREGUE) {
             this.status = StatusPedido.values()[this.status.ordinal() + 1];
             System.out.println("Status do Pedido #" + id + " atualizado para: " + this.status);
+            notifyObservers();
         } else {
             System.out.println("Pedido #" + id + " já foi entregue e não pode mudar de status.");
         }
